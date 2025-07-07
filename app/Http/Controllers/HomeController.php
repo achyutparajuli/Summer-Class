@@ -11,9 +11,9 @@ class HomeController extends Controller
         return view('index');
     }
 
-    public function news()
+    public function service()
     {
-        return view('news');
+        return view('service');
     }
 
     public function about()
