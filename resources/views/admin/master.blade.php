@@ -9,7 +9,12 @@
 
     <!-- Main Content -->
     <div class="main-content">
+
+        @include('admin.header.nav')
+
         @yield('content')
+
+
     </div>
 
     @include('admin.footer.footer')
