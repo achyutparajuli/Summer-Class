@@ -1,0 +1,39 @@
+{
+    "name": "yoeunes/toastr",
+    "description": "toastr.js flush notifications for Laravel",
+    "license": "MIT",
+    "type": "library",
+    "keywords": [
+        "laravel",
+        "toastr",
+        "flash-notifications",
+        "dynamic-notifications",
+        "phpflasher",
+        "user-feedback",
+        "open-source"
+    ],
+    "authors": [
+        {
+            "name": "Younes ENNAJI",
+            "email": "younes.ennaji.pro@gmail.com",
+            "homepage": "https://www.linkedin.com/in/younes--ennaji/",
+            "role": "Developer"
+        }
+    ],
+    "homepage": "https://github.com/yoeunes/toastr",
+    "support": {
+        "email": "younes.ennaji.pro@gmail.com",
+        "issues": "https://github.com/php-flasher/php-flasher/issues",
+        "source": "https://github.com/php-flasher/php-flasher",
+        "docs": "https://php-flasher.io"
+    },
+    "require": {
+        "php": ">=8.2",
+        "php-flasher/flasher-toastr-laravel": "^2.1.6"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true
+    }
+}

@@ -22,4 +22,8 @@ Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('adm
 
 Route::get('/admin/users', [UserController::class, 'index'])->name('admin.users.index');
 
+
 Route::get('/admin/movies', [MovieController::class, 'index'])->name('admin.movies.index');
+Route::get('/admin/movies/create', [MovieController::class, 'create'])->name('admin.movies.create');
+
+Route::delete('/admin/movies/{movieId}', [MovieController::class, 'delete'])->name('admin.movies.delete');

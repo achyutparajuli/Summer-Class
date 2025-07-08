@@ -5,6 +5,10 @@
 <div class="container my-5">
     <h2 class="mb-4">Movies Information</h2>
     <table class="table table-bordered table-hover">
+
+        <div class="float-right">
+            <a href="{{ route('admin.movies.create') }}">Create</a>
+        </div>
         <thead class="table-primary">
             <tr>
                 <th>#</th>
@@ -32,9 +36,14 @@
                         <i class="fas fa-edit"></i>
                     </a>
                     &nbsp;
-                    <a href="#" class="text-danger" title="Delete">
-                        <i class="fas fa-trash-alt"></i>
-                    </a>
+                    <form action="{{ route('admin.movies.delete', $movie->id) }}" method="POST" style="display: inline;"
+                        onsubmit="return confirm('Are you sure you want to delete this movie?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-link text-danger p-0" title="Delete">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </form>
                 </td>
             </tr>
             @endforeach
