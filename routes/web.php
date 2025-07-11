@@ -11,19 +11,16 @@ Route::get('/about-us', [HomeController::class, 'about'])->name('about');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::get('/service', [HomeController::class, 'service'])->name('service');
 
-Route::group(['prefix' => 'formSetting'], function () {
-    //
-});
-
-
-
-
 Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard.index');
 
 Route::get('/admin/users', [UserController::class, 'index'])->name('admin.users.index');
 
 
-Route::get('/admin/movies', [MovieController::class, 'index'])->name('admin.movies.index');
-Route::get('/admin/movies/create', [MovieController::class, 'create'])->name('admin.movies.create');
-
-Route::delete('/admin/movies/{movieId}', [MovieController::class, 'delete'])->name('admin.movies.delete');
+Route::prefix('admin/movies')->as('admin.movies.')->controller(MovieController::class)->group(function () {
+    Route::get('/', 'index')->name('index'); 
+    Route::get('/create', 'create')->name('create'); 
+    Route::post('/', 'store')->name('store'); 
+    Route::get('/{movieId}', 'edit')->name('edit'); 
+    Route::put('/{movieId}', 'update')->name('update'); 
+    Route::delete('/{movieId}', 'delete')->name('delete');
+});

@@ -37,4 +37,5 @@
             background-color: #f8f9fa;
         }
     </style>
+    @stack('css')
 </head>

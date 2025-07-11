@@ -18,6 +18,7 @@ return new class extends Migration
             $table->decimal('duration');
             $table->date('release_date');
             $table->decimal('rating');
+            $table->string('image')->nullable();
             $table->foreignId('genre_id')->constrained('genres')->onDelete('cascade');
             $table->string('language', 15)->default('english');
             $table->text('cast')->nullable();

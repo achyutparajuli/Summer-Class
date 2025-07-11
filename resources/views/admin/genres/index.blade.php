@@ -1,28 +1,17 @@
 @extends('admin.master')
 
-@push('css')
-<style>
-    img {
-        width: auto;
-        height: 5rem;
-    }
-</style>
-@endpush
-
 @section('content')
 
 <div class="container my-5">
     <h2 class="mb-4">Movies Information</h2>
-
-    <div class="mb-2 text-end">
-        <a href="{{ route('admin.movies.create') }}" class="btn btn-primary">Create</a>
-    </div>
-
     <table class="table table-bordered table-hover">
+
+        <div class="float-right">
+            <a href="{{ route('admin.movies.create') }}">Create</a>
+        </div>
         <thead class="table-primary">
             <tr>
                 <th>#</th>
-                <th>Image</th>
                 <th>Name</th>
                 <th>Genre</th>
                 <th>Description</th>
@@ -36,17 +25,17 @@
             @foreach($movies as $movie)
             <tr>
                 <td>{{ $loop->index + 1 }}</td>
-                <td><a href="{{ asset($movie->image) }}" target="_blank"><img src="{{ asset($movie->image) }}"></a></td>
                 <td>{{ $movie->name }}</td>
-                <td>{{ $movie->genre->name }}</td>
+                <td>{{ $movie->genre_id }}</td>
                 <td>{{ $movie->description }}</td>
                 <td>{{ $movie->duration }}</td>
                 <td>{{ $movie->release_date }}</td>
                 <td>{{ $movie->rating }}</td>
                 <td>
-                    <a href="{{ route('admin.movies.edit',$movie->id) }}" class="text-primary me-2" title="Edit">
+                    <a href="#" class="text-primary me-2" title="Edit">
                         <i class="fas fa-edit"></i>
                     </a>
+                    &nbsp;
                     <form action="{{ route('admin.movies.delete', $movie->id) }}" method="POST" style="display: inline;"
                         onsubmit="return confirm('Are you sure you want to delete this movie?')">
                         @csrf
