@@ -20,7 +20,7 @@ class DashboardController extends Controller
         ];
 
         $movies = Movie::latest()->take(5)->get(['id', 'name']); // select * from movies order by id desc
-        
+
         return view('admin.dashboard.index', compact('statistics', 'movies'));
     }
 }

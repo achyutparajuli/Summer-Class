@@ -14,6 +14,22 @@
 <div class="container my-5">
     <h2 class="mb-4">Movies Information</h2>
 
+    <div class="mb-3">
+        <form action="{{ route('admin.movies.index') }}" method="GET">
+            <div class="input-group">
+                <input type="text" name="search" class="form-control" placeholder="Search Movie here" value="{{ request()->search }}">
+
+                <select name="genre_id">
+                    <option value="">Select Genre</option>
+                    @foreach($genres as $genre)
+                    <option value="{{ $genre->id }}" @if($genre->id == request()->genre_id) selected @endif>{{ $genre->name }}</option>
+                    @endforeach
+                </select>
+                <button class="btn btn-outline-primary" type="submit">Search</button>
+            </div>
+        </form>
+    </div>
+
     <div class="mb-2 text-end">
         <a href="{{ route('admin.movies.create') }}" class="btn btn-primary">Create</a>
     </div>

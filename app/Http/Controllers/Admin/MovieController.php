@@ -13,9 +13,10 @@ class MovieController extends Controller
 {
     public function index()
     {
-        $movies = Movie::latest()->get();
+        $genres = Genre::orderBy('name', 'ASC')->get();
+        $movies = Movie::filterSearch()->filterGenreId()->latest()->get();
 
-        return view('admin.movies.index', compact('movies'));
+        return view('admin.movies.index', compact('movies', 'genres'));
     }
 
     public function create()
@@ -47,7 +48,9 @@ class MovieController extends Controller
             $data['image'] = 'storage/' . $imagePath;
         }
 
-        Movie::create($data);
+        $newMovie = new Movie();
+        $newMovie->name = $request->name;
+        $newMovie->save();
 
         toastr()->success('Data has been created successfully!');
         return redirect()->route('admin.movies.index');
@@ -56,6 +59,10 @@ class MovieController extends Controller
     public function edit($movieId)
     {
         $movie = Movie::where('id', $movieId)->first();
+        if (!$movie) {
+            toastr()->error('No Such movie found!');
+            return redirect()->route('admin.movies.index');
+        }
         $genres = Genre::all();
 
         return view('admin.movies.edit', compact('movie', 'genres'));
@@ -83,6 +90,12 @@ class MovieController extends Controller
                 ->withInput($request->input())
                 ->withErrors($validator->errors());
         }
+        $movie = Movie::where('id', $movieId)->first();
+
+        if (!$movie) {
+            toastr()->error('No Such movie found!');
+            return redirect()->route('admin.movies.index');
+        }
 
         $data = $request->all();
         if ($request->image) {
@@ -90,7 +103,6 @@ class MovieController extends Controller
             unset($data['image']);
             $data['image'] = 'storage/' . $imagePath;
         }
-        $movie = Movie::where('id', $movieId)->first();
         $movie->update($data);
 
         toastr()->success('Data has been updated successfully!');
