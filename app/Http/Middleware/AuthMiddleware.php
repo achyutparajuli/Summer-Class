@@ -4,9 +4,10 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class TestMiddleware
+class AuthMiddleware
 {
     /**
      * Handle an incoming request.
@@ -15,8 +16,8 @@ class TestMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (1 == 2) {
-            abort(401);
+        if (!Auth::check()) {
+            return redirect()->route('admin.login.index');
         }
         return $next($request);
     }
