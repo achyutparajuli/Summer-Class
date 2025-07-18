@@ -1,0 +1,9 @@
+New project => ICP STUDENT management
+
+Users crud => role => teachers & student
+
+If student ho vane list only #################################
+
+Registration Email and email verification
+
+Attdendence table => std_id, date (list | Btn on click => today sabai students present)

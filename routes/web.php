@@ -1,9 +1,7 @@
 <?php
 
-use PHPUnit\Event\Code\TestMethod;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AuthMiddleware;
-use App\Http\Middleware\TestMiddleware;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\LoginController;
@@ -26,22 +24,29 @@ Route::prefix('admin/register')
 Route::prefix('admin/login')
     ->as('admin.login.')
     ->controller(LoginController::class)->group(function () {
+        Route::get('/verification/{token}', 'verification')->name('verification');
         Route::get('/', 'index')->name('index');
         Route::post('/', 'check')->name('check');
     });
 
-Route::get('/admin/dashboard', [DashboardController::class, 'index'])
-    ->name('admin.dashboard.index');
 
-Route::get('/admin/users', [UserController::class, 'index'])->name('admin.users.index');
 
-Route::prefix('admin/movies')
-    ->as('admin.movies.')
-    ->controller(MovieController::class)->group(function () {
-        Route::get('/', 'index')->name('index');
-        Route::get('/create', 'create')->name('create');
-        Route::post('/', 'store')->name('store');
-        Route::get('/{movieId}', 'edit')->name('edit');
-        Route::put('/{movieId}', 'update')->name('update');
-        Route::delete('/{movieId}', 'delete')->name('delete');
+
+Route::prefix('admin')
+    ->middleware(AuthMiddleware::class)
+    ->group(function () {
+        Route::get('dashboard', [DashboardController::class, 'index'])
+            ->name('admin.dashboard.index');
+
+        Route::prefix('movies')
+            ->as('admin.movies.')
+            ->controller(MovieController::class)
+            ->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/create', 'create')->name('create');
+                Route::post('/', 'store')->name('store');
+                Route::get('/{movieId}', 'edit')->name('edit');
+                Route::put('/{movieId}', 'update')->name('update');
+                Route::delete('/{movieId}', 'delete')->name('delete');
+            });
     });

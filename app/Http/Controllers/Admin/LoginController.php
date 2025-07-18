@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use Throwable;
+use Carbon\Carbon;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -12,9 +14,6 @@ class LoginController extends Controller
 {
     public function index()
     {
-        // if (Auth::check()) {
-        //     return redirect()->route('admin.dashboard.index');
-        // }
         return view('admin.login.index');
     }
 
@@ -34,6 +33,11 @@ class LoginController extends Controller
             }
 
             if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+                if (!Auth::User()->email_verified_at) {
+                    toastr()->error('Please verify your email.');
+                    Auth::logout();
+                    return redirect()->route('admin.login.index');
+                }
                 toastr()->success('Login Success.');
                 return redirect()->route('admin.dashboard.index');
             } else {
@@ -44,5 +48,20 @@ class LoginController extends Controller
             toastr()->error($e->getMessage());
             return redirect()->back()->withInput($request->input());
         }
+    }
+
+    public function verification($token)
+    {
+        $tokenExists = User::where('verification_token', $token)->first();
+        if ($tokenExists) {
+            $tokenExists->update([
+                'email_verified_at' => Carbon::now(),
+                'verification_token' => null
+            ]);
+            toastr()->success('User verified Succesfully.');
+        } else {
+            toastr()->error('Invalid Token.');
+        }
+        return redirect()->route('admin.login.index');
     }
 }
